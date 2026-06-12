@@ -1,0 +1,27 @@
+name: Sync Framer to GitHub
+on:
+  workflow_dispatch: # Esto permite activarlo manualmente con un botón
+  schedule:
+    - cron: '0 * * * *' # Se revisará automáticamente cada hora
+
+jobs:
+  download-framer:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+
+      - name: Download HTML
+        run: |
+          # REEMPLAZA LA URL DE ABAJO POR TU LINK DE FRAMER
+          curl -L "https://happy-university-391465.framer.app/" > index.html
+          
+      - name: Commit and Push
+        run: |
+          git config --global user.name "FramerSyncBot"
+          git config --global user.email "bot@framer.com"
+          git add index.html
+          git commit -m "Actualización visual desde Framer" || exit 0
+          git push
