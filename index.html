@@ -4,6 +4,21 @@
 <html lang="es" dir="ltr">
 <head>
 	<meta charset="utf-8">
+
+	<script>
+  // 1. Forzar el título a "Tasks" desde el primer instante
+  document.title = "Tasks";
+
+  // 2. Crear un guardián que vigile si Framer intenta cambiarlo después
+  const guardianDeTitulo = new MutationObserver(() => {
+    if (document.title !== "Tasks") {
+      document.title = "Tasks";
+    }
+  });
+
+  // 3. Activar el guardián para que vigile la pestaña
+  guardianDeTitulo.observe(document.querySelector('title'), { childList: true });
+</script>
 	
 
 	<!-- Start of headStart -->
